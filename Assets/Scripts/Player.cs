@@ -7,16 +7,16 @@ public class Player : MonoBehaviour
     //Bool to active
     bool isJumping;
     bool isCrouch;
-    bool isSoul;
+    public bool isSoul;
 
     //Var from Player
     public float speed = 4f;
     float horizontalMove = 0f;
     public int live = 100;
-    public float jumpForce = 5f;
+    public float jumpForce = 6f;
 
     //Components from Player
-    //public Animator animator;
+    public Animator animator;
     Rigidbody2D RbPlayer;
     SpriteRenderer RenderPlayer;
     GameObject GameObjPlayer;
@@ -25,6 +25,9 @@ public class Player : MonoBehaviour
     public Transform TransformSoul;
     public GameObject GameObjSoul;
     Soul scriptSoul;
+    CircleCollider2D CollSoul;
+    Rigidbody2D RbSoul;
+
 
     //Var for Soul
     public float delayCamera = 0.05f;
@@ -34,10 +37,20 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //Player
         RenderPlayer = GetComponent<SpriteRenderer>();
         RbPlayer = GetComponent<Rigidbody2D>();
         GameObjPlayer = GetComponent<GameObject>();
+        
+        //Soul
         scriptSoul = GameObjSoul.GetComponent<Soul>();
+        CollSoul = GameObjSoul.GetComponent<CircleCollider2D>();
+        RbSoul = GameObjSoul.GetComponent<Rigidbody2D>();
+    }
+    // Update is called once per frame
+    void Update()
+    {
+
     }
 
     void FixedUpdate()
@@ -47,6 +60,7 @@ public class Player : MonoBehaviour
         Movement();
         Jump();
         ChangeColorForDamage();
+        ChangeToSoul();
     }
 
     void Movement()
@@ -132,7 +146,6 @@ public class Player : MonoBehaviour
 
     void Damage()
     {
-        print(live);
         if(live <= 0)
         {
 
@@ -164,9 +177,12 @@ public class Player : MonoBehaviour
 
     void ChangeToSoul()
     {
-        if(Input.GetKeyDown(KeyCode.RightArrow) && !isSoul)
+        if(Input.GetKeyDown(KeyCode.C) && !isSoul)
         {
-            scriptSoul.enabled = scriptSoul.enabled;
+            scriptSoul.enabled = !scriptSoul.enabled;
+            CollSoul.enabled = !CollSoul.enabled;
+            RbSoul.gravityScale = 1f;
+            isSoul = true;
         }
     }
 }

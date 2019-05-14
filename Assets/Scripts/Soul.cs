@@ -14,35 +14,59 @@ public class Soul : MonoBehaviour
     //Components from Player
     public GameObject GameObjPlayer;
     Player playerScript;
+    BoxCollider2D CollPlayer;
+    Rigidbody2D RbPlayer;
 
     //Components from Soul
-    GameObject GameObjSoul;
+    Transform TransformSoul;
+    //GameObject GameObjSoul;
     Soul scriptSoul;
     CircleCollider2D CollSoul;
     Rigidbody2D RbSoul;
 
     void Start()
     {
-        GameObjSoul = GetComponent<GameObject>();
+        TransformSoul = GetComponent<Transform>();
+        //GameObjSoul = GetComponent<GameObject>();
         scriptSoul = GetComponent<Soul>();
         CollSoul = GetComponent<CircleCollider2D>();
         RbSoul = GetComponent<Rigidbody2D>();
+
         playerScript = GameObjPlayer.GetComponent<Player>();
+        CollPlayer = GameObjPlayer.GetComponent<BoxCollider2D>();
+        RbPlayer = GameObjPlayer.GetComponent<Rigidbody2D>();
+
     }
     void FixedUpdate()
     {
-        Movement();
-        Jump();
+        if(TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 90.0f))
+        {
+            RightMovement();
+            //RightJump();
+        }
+        if (TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, -90.0f))
+        {
+            //LeftMovement();
+            //LeftJump();
+        }
+        if (TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 180.0f))
+        {
+            //UpMovement();
+            //UpJump();
+        }
+        if (TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 0.0f))
+        {
+            NormalMovement();
+            NormalJump();
+        }
+
         ChangeToSoul();
     }
 
-    void Movement()
+    void NormalMovement()
     {
 
-        if (playerScript.isSoul)
-        {
             horizontalMove = Input.GetAxis("Horizontal");
-        }
         //animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
         if (Input.GetKey(KeyCode.LeftControl))
@@ -51,6 +75,13 @@ public class Soul : MonoBehaviour
         }
         RbSoul.velocity = new Vector2(speed * horizontalMove, RbSoul.velocity.y);
         OrentationSoul();
+    }
+    void RightMovement()
+    {
+        if (Input.GetKeyDown(KeyCode.D))
+           {
+               TransformSoul.position += new Vector3( 0.0f, horizontalMove, 0.0f );
+           }
     }
 
     void OrentationSoul()
@@ -65,7 +96,7 @@ public class Soul : MonoBehaviour
         }
     }
 
-    void Jump()
+    void NormalJump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping && playerScript.isSoul)
         {
@@ -91,13 +122,43 @@ public class Soul : MonoBehaviour
 
     void ChangeToSoul()
     {
-        if (Input.GetKeyDown(KeyCode.C) && playerScript.isSoul)
+        if(Input.GetKeyDown(KeyCode.RightArrow)
+            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 90.0f))
         {
-
+            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+            playerScript.isSoul = false;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow)
+            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, -90.0f))
+        {
+            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+            playerScript.isSoul = false;
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow)
+            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 180.0f))
+        {
+            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+            playerScript.isSoul = false;
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow)
+            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 0.0f))
+        {
+            playerScript.isSoul = false;
+        }
+        if (Input.GetKeyDown(KeyCode.R) && playerScript.isSoul)
+        {
+            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+            playerScript.isSoul = false;
+        }
+        if (!playerScript.isSoul)
+        {
             scriptSoul.enabled = !scriptSoul.enabled;
             CollSoul.enabled = !CollSoul.enabled;
             RbSoul.gravityScale = 0f;
-            playerScript.isSoul = false;
+            horizontalMove = 0.0f;
+                        
+            CollPlayer.enabled = !CollPlayer.enabled;
+            RbPlayer.gravityScale = 1f;
         }
     }
 

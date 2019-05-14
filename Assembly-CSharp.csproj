@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Camera_Follow.cs" />
+    <Compile Include="Assets\Scripts\Change_State.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\Soul.cs" />
     <Reference Include="UnityEditor.StandardEvents">

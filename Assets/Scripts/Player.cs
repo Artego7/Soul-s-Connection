@@ -18,12 +18,13 @@ public class Player : MonoBehaviour
     //Components from Player
     public Animator animator;
     Rigidbody2D RbPlayer;
+    BoxCollider2D CollPlayer;
     SpriteRenderer RenderPlayer;
-    GameObject GameObjPlayer;
+    //GameObject GameObjPlayer;
 
     //Components from Soul
-    public Transform TransformSoul;
     public GameObject GameObjSoul;
+    Transform TransformSoul;
     Soul scriptSoul;
     CircleCollider2D CollSoul;
     Rigidbody2D RbSoul;
@@ -40,9 +41,11 @@ public class Player : MonoBehaviour
         //Player
         RenderPlayer = GetComponent<SpriteRenderer>();
         RbPlayer = GetComponent<Rigidbody2D>();
-        GameObjPlayer = GetComponent<GameObject>();
-        
+        //GameObjPlayer = GetComponent<GameObject>();
+        CollPlayer = GetComponent<BoxCollider2D>();
+
         //Soul
+        TransformSoul = GameObjSoul.GetComponent<Transform>();
         scriptSoul = GameObjSoul.GetComponent<Soul>();
         CollSoul = GameObjSoul.GetComponent<CircleCollider2D>();
         RbSoul = GameObjSoul.GetComponent<Rigidbody2D>();
@@ -75,6 +78,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftControl))
         {
+            print("hola");
             horizontalMove = horizontalMove * 1.5f;
         }
         RbPlayer.velocity = new Vector2(speed * horizontalMove, RbPlayer.velocity.y);
@@ -177,12 +181,51 @@ public class Player : MonoBehaviour
 
     void ChangeToSoul()
     {
-        if(Input.GetKeyDown(KeyCode.C) && !isSoul)
+        if(Input.GetKeyDown(KeyCode.RightArrow) 
+            && !isSoul
+            && !isJumping)
+        {
+            TransformSoul.eulerAngles = new Vector3( 0.0f, 0.0f, 90.0f );
+            isSoul = true;
+            ActiveSouAndDisablePlayer();
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow) 
+            && !isSoul
+            && !isJumping)
+        {
+            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, -90.0f);
+            isSoul = true;
+            ActiveSouAndDisablePlayer();
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow) 
+            && !isSoul
+            && !isJumping)
+        {
+            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
+            isSoul = true;
+            ActiveSouAndDisablePlayer();
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow) 
+            && !isSoul 
+            && !isJumping)
+        {
+            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+            isSoul = true;
+            ActiveSouAndDisablePlayer();
+            RbSoul.gravityScale = 1f;
+        }
+
+    }
+    void ActiveSouAndDisablePlayer()
+    {
+        if (isSoul)
         {
             scriptSoul.enabled = !scriptSoul.enabled;
             CollSoul.enabled = !CollSoul.enabled;
-            RbSoul.gravityScale = 1f;
-            isSoul = true;
+
+            horizontalMove = 0.0f;
+            CollPlayer.enabled = !CollPlayer.enabled;
+            RbPlayer.gravityScale = 0f;
         }
     }
 }

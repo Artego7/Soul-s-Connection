@@ -2,9 +2,10 @@
 
 public class Camera_Follow : MonoBehaviour
 {
-    public Transform player;
-    public Transform soul;
+    public Transform TransformSoul;
     public GameObject GameObjPlayer;
+    public GameObject SoulGround;
+    Transform TransformPlayer;
 
     public float delayCamera = 0.05f;
     public Vector3 offset;
@@ -14,18 +15,19 @@ public class Camera_Follow : MonoBehaviour
     void Start()
     {
         playerScript = GameObjPlayer.GetComponent<Player>();
+        TransformPlayer = GameObjPlayer.GetComponent<Transform>();
     }
 
     void FixedUpdate()
     {
         if (!playerScript.isSoul)
         {
-            Follow(player);
+            Follow(TransformPlayer);
         }
-        else if (playerScript.isSoul)
-        {
-            Follow(soul);
-        }
+        //else if (playerScript.isSoul)
+        //{
+        //    Follow(TransformSoul);
+        //}
     }
 
     void Follow(Transform transObj)
@@ -33,5 +35,6 @@ public class Camera_Follow : MonoBehaviour
         Vector3 playerPos = transObj.position + offset;
         Vector3 delayPlayerPos = Vector3.Lerp(transform.position, playerPos, delayCamera);
         transform.position = delayPlayerPos;
+        SoulGround.transform.position = transform.position;
     }
 }

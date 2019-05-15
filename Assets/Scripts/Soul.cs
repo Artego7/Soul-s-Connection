@@ -7,10 +7,11 @@ public class Soul : MonoBehaviour
 
     //Var from Soul
     public float speed = 4f;
-    float horizontalMove = 0f;
     public float jumpForce = 6f;
+    public float grabityForce = 9.8f;
+    float horizontalMove = 0f;
     bool isJumping;
-
+    bool isOnGround;
     //Components from Player
     public GameObject GameObjPlayer;
     Player playerScript;
@@ -35,37 +36,46 @@ public class Soul : MonoBehaviour
         playerScript = GameObjPlayer.GetComponent<Player>();
         CollPlayer = GameObjPlayer.GetComponent<BoxCollider2D>();
         RbPlayer = GameObjPlayer.GetComponent<Rigidbody2D>();
-
+        isOnGround = false;
     }
     void FixedUpdate()
     {
-        if(TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 90.0f))
+        //ChangeEulerAngles();
+        if (TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 90.0f))
         {
             RightMovement();
-            //RightJump();
+            RightJump();
         }
-        if (TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, -90.0f))
+        print(TransformSoul.eulerAngles);
+        if (TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 270.0f))
         {
-            //LeftMovement();
-            //LeftJump();
+            print("leftcond");
+            LeftMovement();
+            LeftJump();
         }
         if (TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 180.0f))
         {
-            //UpMovement();
-            //UpJump();
+            UpMovement();
+            UpJump();
         }
         if (TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 0.0f))
         {
             NormalMovement();
             NormalJump();
         }
-
-        ChangeToSoul();
+        if (Input.GetKey(KeyCode.LeftArrow)
+               || Input.GetKey(KeyCode.RightArrow))
+        {
+            horizontalMove = 0;
+        }
+        if (isOnGround)
+        {
+            ChangeToPlayer();
+        }
     }
 
     void NormalMovement()
     {
-
             horizontalMove = Input.GetAxis("Horizontal");
         //animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
@@ -76,12 +86,88 @@ public class Soul : MonoBehaviour
         RbSoul.velocity = new Vector2(speed * horizontalMove, RbSoul.velocity.y);
         OrentationSoul();
     }
+    void NormalJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && playerScript.isSoul)
+        {
+            isJumping = true;
+            isOnGround = false;
+            RbSoul.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            //animator.SetBool("Jumping", true);
+        }
+    }
+
+    void UpMovement()
+    {
+        horizontalMove = Input.GetAxis("Horizontal");
+        RbSoul.AddForce(Vector2.up * grabityForce, ForceMode2D.Force);
+        //animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            horizontalMove = horizontalMove * 1.5f;
+        }
+        RbSoul.velocity = new Vector2(speed * horizontalMove, RbSoul.velocity.y);
+        OrentationSoul();
+    }
+    void UpJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && playerScript.isSoul)
+        {
+            isJumping = true;
+            isOnGround = false;
+            RbSoul.AddForce(Vector2.down * jumpForce, ForceMode2D.Impulse);
+            //animator.SetBool("Jumping", true);
+        }
+    }
+
     void RightMovement()
     {
-        if (Input.GetKeyDown(KeyCode.D))
-           {
-               TransformSoul.position += new Vector3( 0.0f, horizontalMove, 0.0f );
-           }
+        horizontalMove = Input.GetAxis("Horizontal");
+        RbSoul.AddForce(Vector2.right * grabityForce, ForceMode2D.Force);
+        //animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            horizontalMove = horizontalMove * 1.5f;
+        }
+
+        RbSoul.velocity = new Vector2( RbSoul.velocity.x, speed * horizontalMove);
+    }
+    void RightJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && playerScript.isSoul)
+        {
+            isJumping = true;
+            isOnGround = false;
+            RbSoul.AddForce(Vector2.left * jumpForce, ForceMode2D.Impulse);
+            //animator.SetBool("Jumping", true);
+        }
+    }
+
+    void LeftMovement()
+    {
+            horizontalMove = Input.GetAxis("Horizontal");
+        RbSoul.AddForce(Vector2.left * grabityForce, ForceMode2D.Force);
+        //animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            horizontalMove = horizontalMove * 1.5f;
+        }
+
+        RbSoul.velocity = new Vector2(RbSoul.velocity.x, -speed * horizontalMove);
+    }
+    void LeftJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && playerScript.isSoul)
+        {
+            print("leftjump");
+            isJumping = true;
+            isOnGround = false;
+            RbSoul.AddForce(Vector2.right * jumpForce, ForceMode2D.Impulse);
+            //animator.SetBool("Jumping", true);
+        }
     }
 
     void OrentationSoul()
@@ -96,21 +182,12 @@ public class Soul : MonoBehaviour
         }
     }
 
-    void NormalJump()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && playerScript.isSoul)
-        {
-            isJumping = true;
-            RbSoul.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            //animator.SetBool("Jumping", true);
-        }
-    }
-
     private void CollisionJump(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Flor"))
         {
             isJumping = false;
+            isOnGround = true;
             //animator.SetBool("Jumping", false);
         }
     }
@@ -119,33 +196,61 @@ public class Soul : MonoBehaviour
     {
         CollisionJump(collision);
     }
+    void ChangeEulerAngles()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow)
+        && TransformSoul.eulerAngles != new Vector3(0.0f, 0.0f, 90.0f))
+        {
+            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow)
+            && TransformSoul.eulerAngles != new Vector3(0.0f, 0.0f, 270.0f))
+        {
+            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 270.0f);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow)
+            && TransformSoul.eulerAngles != new Vector3(0.0f, 0.0f, 180.0f))
+        {
+            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow)
+            && TransformSoul.eulerAngles != new Vector3(0.0f, 0.0f, 0.0f))
+        {
+            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+        }
+    }
 
-    void ChangeToSoul()
+    void ChangeToPlayer()
     {
         if(Input.GetKeyDown(KeyCode.RightArrow)
-            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 90.0f))
+            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 90.0f)
+            && !isJumping)
         {
             TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
             playerScript.isSoul = false;
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow)
-            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, -90.0f))
+            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 270.0f)
+            && !isJumping)
         {
             TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
             playerScript.isSoul = false;
         }
         if (Input.GetKeyDown(KeyCode.UpArrow)
-            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 180.0f))
+            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 180.0f)
+            && !isJumping)
         {
             TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
             playerScript.isSoul = false;
         }
         if (Input.GetKeyDown(KeyCode.DownArrow)
-            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 0.0f))
+            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 0.0f)
+            && !isJumping)
         {
             playerScript.isSoul = false;
         }
-        if (Input.GetKeyDown(KeyCode.R) && playerScript.isSoul)
+        if (Input.GetKeyDown(KeyCode.R) && playerScript.isSoul
+            && !isJumping)
         {
             TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
             playerScript.isSoul = false;
@@ -161,5 +266,4 @@ public class Soul : MonoBehaviour
             RbPlayer.gravityScale = 1f;
         }
     }
-
 }

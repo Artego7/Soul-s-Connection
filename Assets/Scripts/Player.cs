@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     //Bool to active
     bool isJumping;
     bool isCrouch;
+    bool isOnGround;
     public bool isSoul;
 
     //Var from Player
@@ -49,6 +50,8 @@ public class Player : MonoBehaviour
         scriptSoul = GameObjSoul.GetComponent<Soul>();
         CollSoul = GameObjSoul.GetComponent<CircleCollider2D>();
         RbSoul = GameObjSoul.GetComponent<Rigidbody2D>();
+
+        isOnGround = false;
     }
     // Update is called once per frame
     void Update()
@@ -63,16 +66,23 @@ public class Player : MonoBehaviour
         Movement();
         Jump();
         ChangeColorForDamage();
-        ChangeToSoul();
+        if (isOnGround)
+        {
+            ChangeToSoul();
+        }
     }
 
     void Movement()
     {
         Crouch();
-
         if (!isCrouch && !isSoul)
         {
             horizontalMove = Input.GetAxis("Horizontal");
+        }
+        if (Input.GetKey(KeyCode.LeftArrow)
+            || Input.GetKey(KeyCode.RightArrow))
+        {
+            horizontalMove = 0;
         }
         //animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
@@ -117,6 +127,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isCrouch && !isSoul)
         {
             isJumping = true;
+            isOnGround = false;
             RbPlayer.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             //animator.SetBool("Jumping", true);
         }
@@ -127,6 +138,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Flor"))
         {
             isJumping = false;
+            isOnGround = true;
             //animator.SetBool("Jumping", false);
         }
     }
@@ -189,11 +201,12 @@ public class Player : MonoBehaviour
             isSoul = true;
             ActiveSouAndDisablePlayer();
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow) 
+        if (Input.GetKeyDown(KeyCode.LeftArrow)
             && !isSoul
             && !isJumping)
         {
-            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, -90.0f);
+            print("leftply");
+            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 270.0f);
             isSoul = true;
             ActiveSouAndDisablePlayer();
         }

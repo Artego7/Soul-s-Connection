@@ -158,9 +158,9 @@ PolygonCollider2D:
       - {x: -6.83, y: -3.84}
       - {x: 6.83, y: -3.84}
       - {x: 6.83, y: 3.84}
-    - - {x: -3.4051712, y: 3.405175}
-      - {x: 3.4051714, y: 3.405175}
-      - {x: 3.411303, y: -3.4030461}
+    - - {x: -3.4051707, y: 3.357099}
+      - {x: 3.3761077, y: 3.352884}
+      - {x: 3.37463, y: -3.4030461}
       - {x: -3.4030426, y: -3.4030461}
 --- !u!212 &344408881
 SpriteRenderer:
@@ -380,12 +380,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 670731650}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.594, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &670731653
 MonoBehaviour:
@@ -400,6 +400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4
   jumpForce: 6
+  grabityForce: 9.8
   GameObjPlayer: {fileID: 1161840377}
 --- !u!50 &670731654
 Rigidbody2D:
@@ -863,7 +864,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1518328465
 MonoBehaviour:

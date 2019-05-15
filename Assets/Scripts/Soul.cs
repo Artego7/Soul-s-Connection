@@ -107,7 +107,7 @@ public class Soul : MonoBehaviour
         {
             horizontalMove = horizontalMove * 1.5f;
         }
-        RbSoul.velocity = new Vector2(speed * horizontalMove, RbSoul.velocity.y);
+        RbSoul.velocity = new Vector2(-speed * horizontalMove, RbSoul.velocity.y);
         OrentationSoul();
     }
     void UpJump()

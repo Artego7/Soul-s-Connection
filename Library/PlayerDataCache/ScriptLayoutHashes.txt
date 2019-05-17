@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/User/Desktop/Abel/Trabajos/DAM_VIOD/Unity/Soul-s-Connection/Builds/Builds.exe
+D:/Abel_Zambrano_DAM_VIOD/Soul-s-Connection/Builds/Builds.exe
 SceneListBegin?
 Assets/Scenes/Start.unity
 Assets/Scenes/Game.unity

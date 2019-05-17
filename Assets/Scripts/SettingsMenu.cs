@@ -12,6 +12,9 @@ public class SettingsMenu : MonoBehaviour {
 
     Resolution[] resolutions;
 
+    
+
+
     void Start()
     {
         resolutions = Screen.resolutions;
@@ -24,20 +27,20 @@ public class SettingsMenu : MonoBehaviour {
 
         for (int i = 0; i < resolutions.Length; i++)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
+            Debug.Log("PASANDO POR AQUI");
+            string option = resolutions[i].width.ToString() + " x " + resolutions[i].height.ToString() + "  @" + resolutions[i].refreshRate.ToString() + " Hz";
             options.Add(option);
             //He compares resolution[i] with Screen.currentResolution but that´s wrong. 
             //CurrentResolution gives the Resolution of the monitor but we want to compare it with the Resolution of the window in case we change the scene. 
             //That´s why we have to compare resolution[i].width with Screen.width and  resolution[i].height with Screen.height.﻿
-            if (resolutions[i].width == Screen.currentResolution.width
-                && resolutions[i].height == Screen.currentResolution.height)
+            if (resolutions[i].width == Screen.width
+                && resolutions[i].height == Screen.height)
             {
                 currentResolutionIndex = i;
             }
         }
 
         resolutionDropdown.AddOptions(options);
-
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
     }
@@ -60,7 +63,9 @@ public class SettingsMenu : MonoBehaviour {
 
     public void SetFullScreen(bool isFullScreen)
     {
-        Screen.fullScreen = isFullScreen;
+   
+        Screen.SetResolution(Screen.width, Screen.height, isFullScreen);
+
     }
 
 }

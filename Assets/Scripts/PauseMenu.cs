@@ -1,36 +1,80 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
-public class PauseMenu : MonoBehaviour {
+public class PauseMenu : MonoBehaviour
+{
 
-    GameObject pauseMenu;
+    public static bool GameIsPaused = false;
 
-	// Use this for initialization
-	void Start () {
-	}
-
-    KeyCode FetchKey()
+    public GameObject pauseMenuUI;
+    // Use this for initialization
+    void Start()
     {
-        int e = System.Enum.GetNames(typeof(KeyCode)).Length;
-        for (int i = 0; i < e; i++)
-        {
-            if (Input.GetKey((KeyCode)i))
-            {
-                return (KeyCode)i;
-            }
-        }
-        return KeyCode.None;
     }
 
-        // Update is called once per frame
-        void Update () {
-        print(FetchKey());
+    //CHECK_KEY_IS_USING//
+    //KeyCode FetchKey()
+    //{
+    //    int e = System.Enum.GetNames(typeof(KeyCode)).Length;
+    //    for (int i = 0; i < e; i++)
+    //    {
+    //        if (Input.GetKey((KeyCode)i))
+    //        {
+    //            return (KeyCode)i;
+    //        }
+    //    }
+    //    return KeyCode.None;
+    //}
+    //print(FetchKey());
+
+    // Update is called once per frame
+    void Update()
+    {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            print("hola");
-            pauseMenu.SetActive(true);
+            if (GameIsPaused)
+            {
+                Resume();
+            }
+            else
+            {
+                Pause();
+            }
         }
-	}
+    }
+    public void Resume()
+    {
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1f;
+        GameIsPaused = false;
+    }
+    void Pause()
+    {
+        pauseMenuUI.SetActive(true);
+        Time.timeScale = 0f;
+        GameIsPaused = true;
+    }
+    public void LoadOptionMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Game");
+        Debug.Log("load option");
+    }
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Game");
+        Resume();
+    }
+    public void LoadMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        Debug.Log("load main");
+        Resume();
+    }
+
 }

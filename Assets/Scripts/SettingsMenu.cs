@@ -9,10 +9,37 @@ public class SettingsMenu : MonoBehaviour {
     public AudioMixer audioMixer;
 
     public Dropdown resolutionDropdown;
-
     Resolution[] resolutions;
 
-    
+    public GameObject mainMenu;
+    public GameObject optionMenu;
+
+        PauseMenu pauseMenu;
+
+        void Awake()
+        {
+            if (PlayerPrefs.GetInt("optionIsSelected", 1))
+            {
+                mainMenu.SetActive(false);
+                optionMenu.SetActive(true);
+            }
+            else
+            {
+                mainMenu.SetActive(false);
+                optionMenu.SetActive(true);
+            }
+            if (pauseMenu.optionsIsSelected == 1)
+            {
+                mainMenu.SetActive(false);
+                optionMenu.SetActive(true);
+            }
+            else
+            {
+                mainMenu.SetActive(false);
+                optionMenu.SetActive(true);
+            }
+        }
+
 
 
     void Start()

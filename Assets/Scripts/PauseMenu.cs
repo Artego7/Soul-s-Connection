@@ -7,15 +7,17 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
 
-    public static bool GameIsPaused = false;
-
+    public static bool gameIsPaused = false;
+    public int optionsIsSelected;
     public GameObject pauseMenuUI;
     // Use this for initialization
+
     void Start()
     {
+        PlayerPrefs.SetInt("optionIsSelected", 0);
     }
 
-    //CHECK_KEY_IS_USING//
+    //CHECK_WHAT_KEY_IS_USING//
     //KeyCode FetchKey()
     //{
     //    int e = System.Enum.GetNames(typeof(KeyCode)).Length;
@@ -35,7 +37,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (GameIsPaused)
+            if (gameIsPaused)
             {
                 Resume();
             }
@@ -49,31 +51,31 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        GameIsPaused = false;
+        gameIsPaused = false;
     }
     void Pause()
     {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
-        GameIsPaused = true;
+        gameIsPaused = true;
     }
     public void LoadOptionMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Game");
-        Debug.Log("load option");
+        optionsIsSelected = PlayerPrefs.GetInt("optionIsSelected", 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        Resume();
     }
     public void RestartGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Resume();
     }
     public void LoadMainMenu()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        Debug.Log("load main");
         Resume();
     }
 

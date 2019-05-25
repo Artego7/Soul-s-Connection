@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Flor
+  - Soul
+  - Jugador
+  - Door
   layers:
   - Default
   - TransparentFX

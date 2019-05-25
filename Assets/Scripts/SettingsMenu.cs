@@ -14,31 +14,31 @@ public class SettingsMenu : MonoBehaviour {
     public GameObject mainMenu;
     public GameObject optionMenu;
 
-        PauseMenu pauseMenu;
+        //PauseMenu pauseMenu;
 
-        void Awake()
-        {
-            if (PlayerPrefs.GetInt("optionIsSelected", 1))
-            {
-                mainMenu.SetActive(false);
-                optionMenu.SetActive(true);
-            }
-            else
-            {
-                mainMenu.SetActive(false);
-                optionMenu.SetActive(true);
-            }
-            if (pauseMenu.optionsIsSelected == 1)
-            {
-                mainMenu.SetActive(false);
-                optionMenu.SetActive(true);
-            }
-            else
-            {
-                mainMenu.SetActive(false);
-                optionMenu.SetActive(true);
-            }
-        }
+        //void Awake()
+        //{
+        //    if (PlayerPrefs.GetInt("optionIsSelected", 1))
+        //    {
+        //        mainMenu.SetActive(false);
+        //        optionMenu.SetActive(true);
+        //    }
+        //    else
+        //    {
+        //        mainMenu.SetActive(false);
+        //        optionMenu.SetActive(true);
+        //    }
+        //    if (pauseMenu.optionsIsSelected == 1)
+        //    {
+        //        mainMenu.SetActive(false);
+        //        optionMenu.SetActive(true);
+        //    }
+        //    else
+        //    {
+        //        mainMenu.SetActive(false);
+        //        optionMenu.SetActive(true);
+        //    }
+        //}
 
 
 
@@ -54,7 +54,6 @@ public class SettingsMenu : MonoBehaviour {
 
         for (int i = 0; i < resolutions.Length; i++)
         {
-            Debug.Log("PASANDO POR AQUI");
             string option = resolutions[i].width.ToString() + " x " + resolutions[i].height.ToString() + "  @" + resolutions[i].refreshRate.ToString() + " Hz";
             options.Add(option);
             //He compares resolution[i] with Screen.currentResolution but that´s wrong. 

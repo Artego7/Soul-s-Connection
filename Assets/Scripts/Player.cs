@@ -15,13 +15,13 @@ public class Player : MonoBehaviour
     float horizontalMove = 0f;
     public int live = 100;
     public float jumpForce = 6f;
+    Vector3 LastPlayerPosition;
 
     //Components from Player
     public Animator animator;
     Rigidbody2D RbPlayer;
     BoxCollider2D CollPlayer;
     SpriteRenderer RenderPlayer;
-    //GameObject GameObjPlayer;
 
     //Components from Soul
     public GameObject GameObjSoul;
@@ -42,7 +42,6 @@ public class Player : MonoBehaviour
         //Player
         RenderPlayer = GetComponent<SpriteRenderer>();
         RbPlayer = GetComponent<Rigidbody2D>();
-        //GameObjPlayer = GetComponent<GameObject>();
         CollPlayer = GetComponent<BoxCollider2D>();
 
         //Soul
@@ -56,7 +55,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        LastPlayerPosition = transform.position;
     }
 
     void FixedUpdate()
@@ -142,23 +141,22 @@ public class Player : MonoBehaviour
             //animator.SetBool("Jumping", false);
         }
     }
-    //private void ColliderJump(Collider2D collider)
-    //{
-    //    if (collider.gameObject.CompareTag("Water"))
-    //    {
-    //        isJumping = false;
-    //        animator.SetBool("Jumping", false);
-    //    }
-    //}
+
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         CollisionJump(collision);
     }
-    //private void OnTriggerStay2D(Collider2D collider)
-    //{
-    //    ColliderJump(collider);
-    //}
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("Door"))
+        {
+            transform.position = LastPlayerPosition;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+    }
 
     void Damage()
     {

@@ -63,7 +63,7 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         optionsIsSelected = PlayerPrefs.GetInt("optionIsSelected", 1);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadScene("Start");
         Resume();
     }
     public void RestartGame()

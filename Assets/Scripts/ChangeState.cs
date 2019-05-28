@@ -7,7 +7,6 @@ public class ChangeState : MonoBehaviour {
     public GameObject GameObjPlayer;
     Player playerScript;
 
-    public GameObject Ground;
     public GameObject SoulGround;
     public GameObject SoulCanvas;
 
@@ -21,13 +20,11 @@ public class ChangeState : MonoBehaviour {
     void Update () {
         if (!playerScript.isSoul)
         {
-            Ground.SetActive(true);
             SoulGround.SetActive(false);
             SoulCanvas.SetActive(false);
         }
         else if (playerScript.isSoul)
         {
-            Ground.SetActive(false);
             SoulGround.SetActive(true);
             SoulCanvas.SetActive(true);
         }

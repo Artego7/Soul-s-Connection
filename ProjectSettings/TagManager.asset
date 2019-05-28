@@ -8,6 +8,7 @@ TagManager:
   - Soul
   - Jugador
   - Door
+  - SecurityCamera
   layers:
   - Default
   - TransparentFX

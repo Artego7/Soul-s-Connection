@@ -7,6 +7,7 @@ public class LeverInteraction : MonoBehaviour
     public GameObject lever;
     public GameObject door;
     BoxCollider2D CollDoor;
+    public Sprite spriteBox;
 
     bool isTouching;
     bool isActived;
@@ -22,7 +23,7 @@ public class LeverInteraction : MonoBehaviour
         isOpenDoor = false;
         startLeverEulerAngle = transform.eulerAngles.z;
         lever.transform.eulerAngles = new Vector3(0, 0, getLeverEulerAngleZ(40, startLeverEulerAngle));
-        door.transform.position = new Vector3(8.68f, -3.16f, 0);
+        door.transform.position = new Vector3(-58.83f, -35.33f, 0);
         CollDoor = door.GetComponent<BoxCollider2D>();
     }
 
@@ -46,6 +47,7 @@ public class LeverInteraction : MonoBehaviour
             if (lever.transform.eulerAngles.z >= getLeverEulerAngleZ(300, startLeverEulerAngle)
                 && lever.transform.eulerAngles.z <= getLeverEulerAngleZ(320, startLeverEulerAngle))
             {
+                gameObject.GetComponent<SpriteRenderer>().sprite = spriteBox;
                 lever.transform.eulerAngles = new Vector3(0, 0, getLeverEulerAngleZ(320, startLeverEulerAngle));
                 isActived = false;
                 isOpenDoor = true;

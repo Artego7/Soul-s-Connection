@@ -8,13 +8,13 @@ public class PauseMenu : MonoBehaviour
 {
 
     public static bool gameIsPaused = false;
-    public int optionsIsSelected;
+    //public int optionsIsSelected;
     public GameObject pauseMenuUI;
     // Use this for initialization
 
     void Start()
     {
-        PlayerPrefs.SetInt("optionIsSelected", 0);
+        //PlayerPrefs.SetInt("optionIsSelected", 0);
     }
 
     //CHECK_WHAT_KEY_IS_USING//
@@ -62,7 +62,7 @@ public class PauseMenu : MonoBehaviour
     public void LoadOptionMenu()
     {
         Time.timeScale = 1f;
-        optionsIsSelected = PlayerPrefs.GetInt("optionIsSelected", 1);
+        //optionsIsSelected = PlayerPrefs.GetInt("optionIsSelected", 1);
         SceneManager.LoadScene("Start");
         Resume();
     }

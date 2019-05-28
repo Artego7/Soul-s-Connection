@@ -30,6 +30,9 @@ public class Player : MonoBehaviour
     CircleCollider2D CollSoul;
     Rigidbody2D RbSoul;
 
+    //Var Security Camera
+    float timeOnCOllision;
+
 
     //Var for Soul
     public float delayCamera = 0.05f;
@@ -51,11 +54,13 @@ public class Player : MonoBehaviour
         RbSoul = GameObjSoul.GetComponent<Rigidbody2D>();
 
         isOnGround = false;
+        timeOnCOllision = 0f;
     }
     // Update is called once per frame
     void Update()
     {
         LastPlayerPosition = transform.position;
+            print (timeOnCOllision);
     }
 
     void FixedUpdate()
@@ -153,6 +158,18 @@ public class Player : MonoBehaviour
         {
             transform.position = LastPlayerPosition;
         }
+        if (collision.gameObject.CompareTag("SecurityCamera"))
+        {
+            timeOnCOllision += Time.deltaTime;
+            if (timeOnCOllision >= 2f)
+            {
+                Time.timeScale = 0f;
+            }
+        }
+        if (!collision.gameObject.CompareTag("SecurityCamera"))
+        {
+            timeOnCOllision = 0f;
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -223,7 +240,6 @@ public class Player : MonoBehaviour
             TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
             isSoul = true;
             ActiveSouAndDisablePlayer();
-            RbSoul.gravityScale = 1f;
         }
 
     }

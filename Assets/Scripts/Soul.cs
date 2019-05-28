@@ -12,6 +12,7 @@ public class Soul : MonoBehaviour
     float horizontalMove = 0f;
     bool isJumping;
     bool isOnGround;
+    bool isChangingEulerAngle;
     //Components from Player
     public GameObject GameObjPlayer;
     Player playerScript;
@@ -37,6 +38,7 @@ public class Soul : MonoBehaviour
         CollPlayer = GameObjPlayer.GetComponent<BoxCollider2D>();
         RbPlayer = GameObjPlayer.GetComponent<Rigidbody2D>();
         isOnGround = false;
+        isChangingEulerAngle = false;
     }
     void FixedUpdate()
     {
@@ -48,7 +50,6 @@ public class Soul : MonoBehaviour
         }
         if (TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 270.0f))
         {
-            print("leftcond");
             LeftMovement();
             LeftJump();
         }
@@ -69,13 +70,15 @@ public class Soul : MonoBehaviour
         }
         if (isOnGround)
         {
+            ChangeEulerAngles();
             ChangeToPlayer();
         }
     }
 
     void NormalMovement()
     {
-            horizontalMove = Input.GetAxis("Horizontal");
+        horizontalMove = Input.GetAxis("Horizontal");
+        RbSoul.AddForce(Vector2.down * grabityForce, ForceMode2D.Force);
         //animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
         if (Input.GetKey(KeyCode.LeftControl))
@@ -198,24 +201,28 @@ public class Soul : MonoBehaviour
     void ChangeEulerAngles()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow)
-        && TransformSoul.eulerAngles != new Vector3(0.0f, 0.0f, 90.0f))
+            && TransformSoul.eulerAngles != new Vector3(0.0f, 0.0f, 90.0f))
         {
             TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
+            isJumping = true;
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow)
             && TransformSoul.eulerAngles != new Vector3(0.0f, 0.0f, 270.0f))
         {
             TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 270.0f);
+            isJumping = true;
         }
         if (Input.GetKeyDown(KeyCode.UpArrow)
             && TransformSoul.eulerAngles != new Vector3(0.0f, 0.0f, 180.0f))
         {
             TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
+            isJumping = true;
         }
         if (Input.GetKeyDown(KeyCode.DownArrow)
             && TransformSoul.eulerAngles != new Vector3(0.0f, 0.0f, 0.0f))
         {
             TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+            isJumping = true;
         }
     }
 
@@ -258,7 +265,6 @@ public class Soul : MonoBehaviour
         {
             scriptSoul.enabled = !scriptSoul.enabled;
             CollSoul.enabled = !CollSoul.enabled;
-            RbSoul.gravityScale = 0f;
             horizontalMove = 0.0f;
                         
             CollPlayer.enabled = !CollPlayer.enabled;

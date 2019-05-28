@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     bool isJumping;
     bool isCrouch;
     bool isOnGround;
+    public bool isDead;
     public bool isSoul;
 
     //Var from Player
@@ -31,7 +32,7 @@ public class Player : MonoBehaviour
     Rigidbody2D RbSoul;
 
     //Var Security Camera
-    float timeOnCOllision;
+    float timeOnCollision;
 
 
     //Var for Soul
@@ -54,19 +55,18 @@ public class Player : MonoBehaviour
         RbSoul = GameObjSoul.GetComponent<Rigidbody2D>();
 
         isOnGround = false;
-        timeOnCOllision = 0f;
+        isDead = false;
+        timeOnCollision = 0f;
     }
     // Update is called once per frame
     void Update()
     {
         LastPlayerPosition = transform.position;
-            print (timeOnCOllision);
     }
 
     void FixedUpdate()
     {
         SoulFollow();
-        Damage();
         Movement();
         Jump();
         ChangeColorForDamage();
@@ -160,28 +160,22 @@ public class Player : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("SecurityCamera"))
         {
-            timeOnCOllision += Time.deltaTime;
-            if (timeOnCOllision >= 2f)
+            timeOnCollision += Time.deltaTime;
+            if (timeOnCollision >= 2f)
             {
-                Time.timeScale = 0f;
+                isDead = true;
             }
         }
-        if (!collision.gameObject.CompareTag("SecurityCamera"))
+        if (!collision.gameObject.CompareTag("SecurityCamera")
+            && timeOnCollision > 0)
         {
-            timeOnCOllision = 0f;
+            timeOnCollision -= Time.deltaTime;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
     }
 
-    void Damage()
-    {
-        if(live <= 0)
-        {
-
-        }
-    }
     void ChangeColorForDamage()
     {
         if (Input.GetKeyDown(KeyCode.U))

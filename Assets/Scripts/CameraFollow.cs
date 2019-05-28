@@ -37,6 +37,6 @@ public class CameraFollow : MonoBehaviour
         Vector3 delayPlayerPos = Vector3.Lerp(transform.position, playerPos, delayCamera);
         transform.position = delayPlayerPos;
         SoulGround.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, 0);
-        BackGround.transform.position = new Vector3(transform.position.x, BackGround.transform.position.y, 0);
+        BackGround.transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 }

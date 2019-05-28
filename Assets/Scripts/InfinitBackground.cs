@@ -7,8 +7,10 @@ public class InfinitBackground : MonoBehaviour
 
     Material material;
     Vector2 offset;
-    public float Velocity;
-
+    [SerializeField]
+    float VelocityX;
+    [SerializeField]
+    float VelocityY;
     public Transform cam;
 
     private void Awake()
@@ -23,7 +25,7 @@ public class InfinitBackground : MonoBehaviour
 
     void Update()
     {
-        offset = new Vector2(cam.position.x, 0);
-        material.mainTextureOffset = offset * Velocity;
+        offset = new Vector2(cam.position.x + 5.780137f, cam.position.y + 1.627612f);
+        material.mainTextureOffset = offset * new Vector2(VelocityX, VelocityY);
     }
 }

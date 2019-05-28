@@ -12,7 +12,7 @@ public class Soul : MonoBehaviour
     float horizontalMove = 0f;
     bool isJumping;
     bool isOnGround;
-    bool isChangingEulerAngle;
+    
     //Components from Player
     public GameObject GameObjPlayer;
     Player playerScript;
@@ -25,7 +25,14 @@ public class Soul : MonoBehaviour
     Soul scriptSoul;
     CircleCollider2D CollSoul;
     Rigidbody2D RbSoul;
-
+    public enum Direction
+    {
+        Left,
+        Down,
+        Right,
+        Up
+    }
+    Direction direction;
     void Start()
     {
         TransformSoul = GetComponent<Transform>();
@@ -38,42 +45,38 @@ public class Soul : MonoBehaviour
         CollPlayer = GameObjPlayer.GetComponent<BoxCollider2D>();
         RbPlayer = GameObjPlayer.GetComponent<Rigidbody2D>();
         isOnGround = false;
-        isChangingEulerAngle = false;
     }
     void FixedUpdate()
     {
         //ChangeEulerAngles();
-        if (TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 90.0f))
+        switch (direction)
         {
-            RightMovement();
-            RightJump();
-        }
-        if (TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 270.0f))
-        {
-            LeftMovement();
-            LeftJump();
-        }
-        if (TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 180.0f))
-        {
-            UpMovement();
-            UpJump();
-        }
-        if (TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 0.0f))
-        {
-            NormalMovement();
-            NormalJump();
+            case Direction.Left:
+                LeftMovement();
+                LeftJump();
+                break;
+            case Direction.Down:
+                NormalMovement();
+                NormalJump();
+                break;
+            case Direction.Right:
+                RightMovement();
+                RightJump();
+                break;
+            case Direction.Up:
+                UpMovement();
+                UpJump();
+                break;
         }
         if (Input.GetKey(KeyCode.LeftArrow)
                || Input.GetKey(KeyCode.RightArrow))
         {
             horizontalMove = 0;
         }
-        if (isOnGround)
-        {
             ChangeEulerAngles();
-            ChangeToPlayer();
-        }
-    }
+        
+          //    ChangeToPlayer();
+}
 
     void NormalMovement()
     {
@@ -134,7 +137,7 @@ public class Soul : MonoBehaviour
             horizontalMove = horizontalMove * 1.5f;
         }
 
-        RbSoul.velocity = new Vector2( RbSoul.velocity.x, speed * horizontalMove);
+        RbSoul.velocity = new Vector2(RbSoul.velocity.x, speed * horizontalMove);
     }
     void RightJump()
     {
@@ -149,7 +152,7 @@ public class Soul : MonoBehaviour
 
     void LeftMovement()
     {
-            horizontalMove = Input.GetAxis("Horizontal");
+        horizontalMove = Input.GetAxis("Horizontal");
         RbSoul.AddForce(Vector2.left * grabityForce, ForceMode2D.Force);
         //animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
@@ -183,8 +186,7 @@ public class Soul : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1);
         }
     }
-
-    private void CollisionJump(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Flor"))
         {
@@ -193,82 +195,111 @@ public class Soul : MonoBehaviour
             //animator.SetBool("Jumping", false);
         }
     }
-
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionExit2D(Collision2D collision)
     {
-        CollisionJump(collision);
+        if (collision.gameObject.CompareTag("Flor"))
+        {
+            isOnGround = false;
+            //animator.SetBool("Jumping", false);
+        }
     }
     void ChangeEulerAngles()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow)
-            && TransformSoul.eulerAngles != new Vector3(0.0f, 0.0f, 90.0f))
+        if (isOnGround)
         {
-            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
-            isJumping = true;
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                if (direction != Direction.Right) //Estoy mirando en otra direccion
+                {
+                    transform.eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
+                    direction = Direction.Right;
+                }
+                else // Estoy mirando a la derecha
+                {
+                    transform.eulerAngles = Vector3.zero;
+                    ChangeToPlayer();
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                if (direction != Direction.Left)
+                {
+                    transform.eulerAngles = new Vector3(0.0f, 0.0f, 270.0f);
+                    direction = Direction.Left;
+                }
+                else // Estoy mirando a la derecha
+                {
+                    transform.eulerAngles = Vector3.zero;
+                    ChangeToPlayer();
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                if (direction != Direction.Up)
+                {
+                    transform.eulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
+                    direction = Direction.Up;
+                }
+                else // Estoy mirando a la derecha
+                {
+                    transform.eulerAngles = Vector3.zero;
+                    ChangeToPlayer();
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                if (direction != Direction.Down)
+                {
+                    transform.eulerAngles = Vector3.zero;
+                    direction = Direction.Down;
+                }
+                else // Estoy mirando a la derecha
+                {
+                    transform.eulerAngles = Vector3.zero;
+                    ChangeToPlayer();
+                }
+
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                TransformSoul.eulerAngles = Vector3.zero;
+            }
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow)
-            && TransformSoul.eulerAngles != new Vector3(0.0f, 0.0f, 270.0f))
+    }
+    
+    public void InitialDir(Direction dir) {
+        direction = dir;
+        switch (dir)
         {
-            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 270.0f);
-            isJumping = true;
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow)
-            && TransformSoul.eulerAngles != new Vector3(0.0f, 0.0f, 180.0f))
-        {
-            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
-            isJumping = true;
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow)
-            && TransformSoul.eulerAngles != new Vector3(0.0f, 0.0f, 0.0f))
-        {
-            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
-            isJumping = true;
+            case Direction.Left:
+                transform.eulerAngles = new Vector3(0.0f, 0.0f, 270.0f);
+                break;
+            case Direction.Down:
+                transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+                break;
+            case Direction.Right:
+                transform.eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
+                break;
+            case Direction.Up:
+                transform.eulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
+                break;
         }
     }
 
     void ChangeToPlayer()
     {
-        if(Input.GetKeyDown(KeyCode.RightArrow)
-            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 90.0f)
-            && !isJumping)
-        {
-            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
-            playerScript.isSoul = false;
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow)
-            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 270.0f)
-            && !isJumping)
-        {
-            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
-            playerScript.isSoul = false;
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow)
-            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 180.0f)
-            && !isJumping)
-        {
-            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
-            playerScript.isSoul = false;
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow)
-            && TransformSoul.eulerAngles == new Vector3(0.0f, 0.0f, 0.0f)
-            && !isJumping)
-        {
-            playerScript.isSoul = false;
-        }
-        if (Input.GetKeyDown(KeyCode.R) && playerScript.isSoul
-            && !isJumping)
-        {
-            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
-            playerScript.isSoul = false;
-        }
-        if (!playerScript.isSoul)
-        {
+
+
             scriptSoul.enabled = !scriptSoul.enabled;
             CollSoul.enabled = !CollSoul.enabled;
             horizontalMove = 0.0f;
-                        
+            playerScript.isSoul = false;
             CollPlayer.enabled = !CollPlayer.enabled;
             RbPlayer.gravityScale = 1f;
-        }
     }
+
+
 }

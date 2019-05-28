@@ -9,6 +9,7 @@ TagManager:
   - Jugador
   - Door
   - SecurityCamera
+  - Prision
   layers:
   - Default
   - TransparentFX

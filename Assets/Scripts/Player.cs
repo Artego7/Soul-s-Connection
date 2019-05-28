@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print(timeOnCollision);
         LastPlayerPosition = transform.position;
     }
 
@@ -92,7 +93,6 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            print("hola");
             horizontalMove = horizontalMove * 1.5f;
         }
         RbPlayer.velocity = new Vector2(speed * horizontalMove, RbPlayer.velocity.y);
@@ -151,6 +151,11 @@ public class Player : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         CollisionJump(collision);
+        if (collision.gameObject.CompareTag("Prision"))
+        {
+           isDead = true;
+        }
+
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -160,17 +165,32 @@ public class Player : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("SecurityCamera"))
         {
+            CancelInvoke("DecressTimeOfSecurityCamera");
             timeOnCollision += Time.deltaTime;
             if (timeOnCollision >= 2f)
             {
                 isDead = true;
             }
         }
-        if (!collision.gameObject.CompareTag("SecurityCamera")
-            && timeOnCollision > 0)
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("SecurityCamera"))
         {
-            timeOnCollision -= Time.deltaTime;
+            InvokeRepeating("DecressTimeOfSecurityCamera", 0f, 0.05f);
         }
+    }
+    void DecressTimeOfSecurityCamera()
+    {
+        if (timeOnCollision <= 0f)
+        {
+            timeOnCollision = 0f;
+            CancelInvoke("DecressTimeOfSecurityCamera");
+        }
+        else {
+            timeOnCollision -= 0.1f;
+        }
+        
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -206,7 +226,7 @@ public class Player : MonoBehaviour
             && !isSoul
             && !isJumping)
         {
-            TransformSoul.eulerAngles = new Vector3( 0.0f, 0.0f, 90.0f );
+            scriptSoul.InitialDir(Soul.Direction.Right);
             isSoul = true;
             ActiveSouAndDisablePlayer();
         }
@@ -214,8 +234,7 @@ public class Player : MonoBehaviour
             && !isSoul
             && !isJumping)
         {
-            print("leftply");
-            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 270.0f);
+            scriptSoul.InitialDir(Soul.Direction.Left);
             isSoul = true;
             ActiveSouAndDisablePlayer();
         }
@@ -223,7 +242,7 @@ public class Player : MonoBehaviour
             && !isSoul
             && !isJumping)
         {
-            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
+            scriptSoul.InitialDir(Soul.Direction.Up);
             isSoul = true;
             ActiveSouAndDisablePlayer();
         }
@@ -231,7 +250,7 @@ public class Player : MonoBehaviour
             && !isSoul 
             && !isJumping)
         {
-            TransformSoul.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+            scriptSoul.InitialDir(Soul.Direction.Down);
             isSoul = true;
             ActiveSouAndDisablePlayer();
         }

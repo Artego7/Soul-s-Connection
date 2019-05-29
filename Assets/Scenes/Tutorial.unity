@@ -8003,8 +8003,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 61.83, y: 3}
-  m_SizeDelta: {x: 8.393, y: 1.762}
+  m_AnchoredPosition: {x: 61.83, y: 3.006}
+  m_SizeDelta: {x: 4.531, y: 1.118}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &968604029
 MonoBehaviour:
@@ -8026,7 +8026,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: O la misma flecha ya pulsada para cambiar
+  m_text: Para Volver
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 715b80e429c437e40867928a4e1fc975, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 715b80e429c437e40867928a4e1fc975, type: 2}
@@ -8071,7 +8071,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 21
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -8094,12 +8094,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 968604029}
-    characterCount: 41
+    characterCount: 11
     spriteCount: 0
-    spaceCount: 7
-    wordCount: 8
+    spaceCount: 1
+    wordCount: 2
     linkCount: 0
-    lineCount: 2
+    lineCount: 1
     pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0
@@ -8355,7 +8355,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1110574983}
-        m_MethodName: LoadMainMenu
+        m_MethodName: LoadLevelsMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9004,7 +9004,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "Para Cambiar de \xC1ngulo"
+  m_text: "Para Cambiar de \xC1ngulo\nLa Misma Flecha Para Volver"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 715b80e429c437e40867928a4e1fc975, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 715b80e429c437e40867928a4e1fc975, type: 2}
@@ -9049,7 +9049,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 16
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -9072,10 +9072,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1261486093}
-    characterCount: 22
+    characterCount: 50
     spriteCount: 0
-    spaceCount: 3
-    wordCount: 4
+    spaceCount: 8
+    wordCount: 9
     linkCount: 0
     lineCount: 2
     pageCount: 1
@@ -9167,8 +9167,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 54.11002, y: 2.95}
-  m_SizeDelta: {x: 6.238, y: 1.249}
+  m_AnchoredPosition: {x: 54.11002, y: 2.99}
+  m_SizeDelta: {x: 10.928, y: 2.445}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1275598328
 PrefabInstance:
@@ -11615,7 +11615,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.000023365, y: -200.99997}
-  m_SizeDelta: {x: 766.5, y: 198.8}
+  m_SizeDelta: {x: 938.5, y: 198.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1846244551
 MonoBehaviour:
@@ -11672,7 +11672,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1110574983}
-        m_MethodName: LoadOptionMenu
+        m_MethodName: LoadMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11755,7 +11755,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000030517578, y: -0.000015258789}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
   m_SizeDelta: {x: 174.4, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1848234692

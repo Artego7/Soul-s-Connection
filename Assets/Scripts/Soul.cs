@@ -167,7 +167,6 @@ public class Soul : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping && playerScript.isSoul)
         {
-            print("leftjump");
             isJumping = true;
             isOnGround = false;
             RbSoul.AddForce(Vector2.right * jumpForce, ForceMode2D.Impulse);
@@ -265,7 +264,8 @@ public class Soul : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.R))
             {
-                TransformSoul.eulerAngles = Vector3.zero;
+                transform.eulerAngles = Vector3.zero;
+                ChangeToPlayer();
             }
         }
     }
@@ -291,8 +291,6 @@ public class Soul : MonoBehaviour
 
     void ChangeToPlayer()
     {
-
-
             scriptSoul.enabled = !scriptSoul.enabled;
             CollSoul.enabled = !CollSoul.enabled;
             horizontalMove = 0.0f;

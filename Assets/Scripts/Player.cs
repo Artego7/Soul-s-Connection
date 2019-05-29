@@ -61,7 +61,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(timeOnCollision);
         LastPlayerPosition = transform.position;
     }
 
@@ -167,6 +166,8 @@ public class Player : MonoBehaviour
         {
             CancelInvoke("DecressTimeOfSecurityCamera");
             timeOnCollision += Time.deltaTime;
+            
+                GetComponent<SpriteRenderer>().color = new Color((timeOnCollision / 4), 1, 1);
             if (timeOnCollision >= 2f)
             {
                 isDead = true;
@@ -185,6 +186,7 @@ public class Player : MonoBehaviour
         if (timeOnCollision <= 0f)
         {
             timeOnCollision = 0f;
+            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
             CancelInvoke("DecressTimeOfSecurityCamera");
         }
         else {

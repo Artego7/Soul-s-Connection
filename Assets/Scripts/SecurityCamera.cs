@@ -5,6 +5,7 @@ using UnityEngine;
 public class SecurityCamera : MonoBehaviour
 {
     bool isGoToChange;
+    float timeOnCollision = 0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +20,7 @@ public class SecurityCamera : MonoBehaviour
     void ChangeViewSide()
     {
         float timer = Time.deltaTime;
-        if (transform.eulerAngles.z >= 284  
+        if (transform.eulerAngles.z >= 284
             && transform.eulerAngles.z <= 286)
         {
             isGoToChange = false;
